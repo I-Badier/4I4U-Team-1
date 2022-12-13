@@ -1,8 +1,12 @@
 #include <Arduino.h>
 #include <ChainableLED.h>
+#include <Adafruit_NeoPixel.h>
 
-#define NUM_LED 3
 #define LIGHT_SENSOR_PIN 0
+#define LED_STICK_PIN_FRONT 6
+#define LED_STICK_PIN_BACK 10
+#define NUM_LED 3
+#define NUM_PIXEL_STICK 10
 
 #define LEFT_BLINKER_BUTTON 5
 #define LEFT_BLINKER_LED 4
@@ -13,17 +17,23 @@
 #define RIGHT_BLINKER 1
 
 ChainableLED leds = ChainableLED(7, 8, NUM_LED);
+Adafruit_NeoPixel led_stick_front = Adafruit_NeoPixel(NUM_PIXEL_STICK, LED_STICK_PIN_FRONT, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel led_stick_back = Adafruit_NeoPixel(NUM_PIXEL_STICK, LED_STICK_PIN_BACK, NEO_GRB + NEO_KHZ800);
 
-volatile bool start_left_blinkers = false;
-volatile bool start_right_blinkers = false;
 volatile long int last_push_left = 0;
 volatile long int last_push_right = 0;
 hw_timer_t *timer_left_blinkers = NULL;
 hw_timer_t *timer_right_blinkers = NULL;
-volatile bool state = false;
 
 volatile bool left_blinkers_on = false;
 volatile bool right_blinkers_on = false;
+volatile bool start_left_blinkers = false;
+volatile bool start_right_blinkers = false;
+
+bool night_detected = false;
+bool last_state_night_detected = false;
+
+int threshold_luminosity = 1000;
 
 void IRAM_ATTR ISR_left_blinkers_button()
 {
@@ -167,9 +177,54 @@ void setup()
   leds.setColorRGB((byte)RIGHT_BLINKER, 0, 0, 0);
   leds.setColorRGB((byte)LEFT_BLINKER, 0, 0, 0);
 
+  led_stick_front.setBrightness(255);
+  led_stick_front.begin();
+
+  led_stick_back.setBrightness(255);
+  led_stick_back.begin();
+
   Serial.println("- END OF SETUP --");
 }
 
 void loop()
 {
+  int light_value = analogRead(LIGHT_SENSOR_PIN);
+
+  if (light_value < threshold_luminosity)
+  {
+    night_detected = true;
+  }
+  else
+  {
+    night_detected = false;
+  }
+  Serial.println(night_detected);
+
+  if (night_detected != last_state_night_detected)
+  {
+    if (night_detected)
+    {
+      for (int i = 0; i < NUM_PIXEL_STICK; i++)
+      {
+        led_stick_front.setPixelColor(i, led_stick_front.Color(255, 255, 255));
+        led_stick_back.setPixelColor(i, led_stick_back.Color(255, 0, 0));
+      }
+      led_stick_front.show();
+      led_stick_back.show();
+    }
+    else
+    {
+      for (int i = 0; i < NUM_PIXEL_STICK; i++)
+      {
+        led_stick_front.setPixelColor(i, led_stick_front.Color(0, 0, 0));
+        led_stick_back.setPixelColor(i, led_stick_back.Color(0, 0, 0));
+      }
+      led_stick_front.show();
+      led_stick_back.show();
+    }
+  }
+
+  last_state_night_detected = night_detected;
+
+  delay(100);
 }
