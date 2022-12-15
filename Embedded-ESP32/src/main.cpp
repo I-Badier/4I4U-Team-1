@@ -5,7 +5,7 @@
 #define LIGHT_SENSOR_PIN 0
 #define LED_STICK_PIN_FRONT 6
 #define LED_STICK_PIN_BACK 10
-#define NUM_LED 3
+#define NUM_LED 4
 #define NUM_PIXEL_STICK 10
 
 #define LEFT_BLINKER_BUTTON 5
@@ -13,8 +13,10 @@
 #define RIGHT_BLINKER_BUTTON 18
 #define RIGHT_BLINKER_LED 19
 
-#define LEFT_BLINKER 0
-#define RIGHT_BLINKER 1
+#define LEFT_BLINKER_1 0
+#define LEFT_BLINKER_2 1
+#define RIGHT_BLINKER_1 2
+#define RIGHT_BLINKER_2 3
 
 ChainableLED leds = ChainableLED(7, 8, NUM_LED);
 Adafruit_NeoPixel led_stick_front = Adafruit_NeoPixel(NUM_PIXEL_STICK, LED_STICK_PIN_FRONT, NEO_GRB + NEO_KHZ800);
@@ -43,7 +45,8 @@ void IRAM_ATTR ISR_left_blinkers_button()
     start_left_blinkers = true;
     left_blinkers_on = true;
     digitalWrite(LEFT_BLINKER_LED, HIGH);
-    leds.setColorRGB((byte)LEFT_BLINKER, 255, 100, 0);
+    leds.setColorRGB((byte)LEFT_BLINKER_1, 255, 100, 0);
+    leds.setColorRGB((byte)LEFT_BLINKER_2, 255, 100, 0);
     timerAlarmEnable(timer_left_blinkers);
     timerRestart(timer_left_blinkers);
   }
@@ -52,7 +55,8 @@ void IRAM_ATTR ISR_left_blinkers_button()
     start_left_blinkers = false;
     left_blinkers_on = false;
     digitalWrite(LEFT_BLINKER_LED, LOW);
-    leds.setColorRGB((byte)LEFT_BLINKER, 0, 0, 0);
+    leds.setColorRGB((byte)LEFT_BLINKER_1, 0, 0, 0);
+    leds.setColorRGB((byte)LEFT_BLINKER_2, 0, 0, 0);
     timerAlarmDisable(timer_left_blinkers);
   }
 }
@@ -65,7 +69,8 @@ void IRAM_ATTR ISR_right_blinkers_button()
     start_right_blinkers = true;
     right_blinkers_on = true;
     digitalWrite(RIGHT_BLINKER_LED, HIGH);
-    leds.setColorRGB((byte)RIGHT_BLINKER, 255, 100, 0);
+    leds.setColorRGB((byte)RIGHT_BLINKER_1, 255, 100, 0);
+    leds.setColorRGB((byte)RIGHT_BLINKER_2, 255, 100, 0);
     timerAlarmEnable(timer_right_blinkers);
     timerRestart(timer_right_blinkers);
   }
@@ -74,7 +79,8 @@ void IRAM_ATTR ISR_right_blinkers_button()
     start_right_blinkers = false;
     right_blinkers_on = false;
     digitalWrite(RIGHT_BLINKER_LED, LOW);
-    leds.setColorRGB((byte)RIGHT_BLINKER, 0, 0, 0);
+    leds.setColorRGB((byte)RIGHT_BLINKER_1, 0, 0, 0);
+    leds.setColorRGB((byte)RIGHT_BLINKER_2, 0, 0, 0);
     timerAlarmDisable(timer_right_blinkers);
   }
 }
@@ -85,13 +91,15 @@ void IRAM_ATTR ISR_left_timer()
   {
     left_blinkers_on = false;
     digitalWrite(LEFT_BLINKER_LED, HIGH);
-    leds.setColorRGB((byte)LEFT_BLINKER, 255, 100, 0);
+    leds.setColorRGB((byte)LEFT_BLINKER_1, 255, 100, 0);
+    leds.setColorRGB((byte)LEFT_BLINKER_2, 255, 100, 0);
   }
   else
   {
     left_blinkers_on = true;
     digitalWrite(LEFT_BLINKER_LED, LOW);
-    leds.setColorRGB((byte)LEFT_BLINKER, 0, 0, 0);
+    leds.setColorRGB((byte)LEFT_BLINKER_1, 0, 0, 0);
+    leds.setColorRGB((byte)LEFT_BLINKER_2, 0, 0, 0);
   }
 }
 
@@ -101,13 +109,15 @@ void IRAM_ATTR ISR_right_timer()
   {
     right_blinkers_on = false;
     digitalWrite(RIGHT_BLINKER_LED, HIGH);
-    leds.setColorRGB((byte)RIGHT_BLINKER, 255, 100, 0);
+    leds.setColorRGB((byte)RIGHT_BLINKER_1, 255, 100, 0);
+    leds.setColorRGB((byte)RIGHT_BLINKER_2, 255, 100, 0);
   }
   else
   {
     right_blinkers_on = true;
     digitalWrite(RIGHT_BLINKER_LED, LOW);
-    leds.setColorRGB((byte)RIGHT_BLINKER, 0, 0, 0);
+    leds.setColorRGB((byte)RIGHT_BLINKER_1, 0, 0, 0);
+    leds.setColorRGB((byte)RIGHT_BLINKER_2, 0, 0, 0);
   }
 }
 
@@ -174,8 +184,10 @@ void setup()
   timerAttachInterrupt(timer_right_blinkers, &ISR_right_timer, true);
   timerAlarmWrite(timer_right_blinkers, 600000, true);
 
-  leds.setColorRGB((byte)RIGHT_BLINKER, 0, 0, 0);
-  leds.setColorRGB((byte)LEFT_BLINKER, 0, 0, 0);
+  leds.setColorRGB((byte)RIGHT_BLINKER_1, 0, 0, 0);
+  leds.setColorRGB((byte)LEFT_BLINKER_1, 0, 0, 0);
+  leds.setColorRGB((byte)RIGHT_BLINKER_2, 0, 0, 0);
+  leds.setColorRGB((byte)LEFT_BLINKER_2, 0, 0, 0);
 
   led_stick_front.setBrightness(255);
   led_stick_front.begin();
