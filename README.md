@@ -12,8 +12,8 @@ Tricycle avec deux roues motrices. Allumage automatique des feux et système de 
 - 1 capteur de luminosité : Grove Light Sensor
 
 ### Architecture
-
+![Architecture](https://github.com/I-Badier/4I4U-Team-1/blob/main/Pictures/archiElec.jpg)
 
 ## Documentation
 Espressif documentation for [ESP32 C3 devKit M1](https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/hw-reference/esp32c3/user-guide-devkitm-1.html)  
-![Pinout](https://github.com/I-Badier/4I4U-Team-1/blob/main/Datasheet/pinout-esp32-c3-devkit-m1.jpg)
+![Pinout](https://github.com/I-Badier/4I4U-Team-1/blob/main/Pictures/pinout-esp32-c3-devkit-m1.jpg)
