@@ -1,5 +1,9 @@
 # Donk-e
-Tricycle avec deux roues motrices. Allumage automatique des feux et système de clignotants. Application d'accompagnement pour montrer à disposition les statistiques du tricycle (niveau de batterie, kilométrage, usure des consommables...), l'historique des trajets ainsi que des notifications.
+Tricycle avec deux roues motrices.  
+Fonctionnaltiés : 
+- Allumage automatique des feux
+- Système de clignotants
+- Application d'accompagnement pour montrer à disposition les statistiques du tricycle (niveau de batterie, kilométrage, usure des consommables...), l'historique des trajets ainsi que des notifications.
 
 ## GitHub pour l'application mobile
 
