@@ -1,11 +1,13 @@
 # Donk-e
-Tricycle avec deux roues motrices.  
-Fonctionnaltiés : 
+Tricycle avec deux roues motrices. Réalisé dans le cadre du projet innovant de la 5ème année spécialité Innovative Smart Systems à l'INSA Toulouse. Répond aux projets 4I4U et Extrême Défi de l'ADEME.
+
+Fonctionnalités : 
 - Allumage automatique des feux
 - Système de clignotants
 - Application d'accompagnement pour montrer à disposition les statistiques du tricycle (niveau de batterie, kilométrage, usure des consommables...), l'historique des trajets ainsi que des notifications.
 
-## GitHub pour l'application mobile
+## Application mobile
+Développement de l'application effectué sur un autre répertoire, disponible [ici](https://github.com/emmanuel-pastor/tricycle-iot-app).
 
 ## Firmware
 ### Composants
